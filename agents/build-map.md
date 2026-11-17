@@ -33,4 +33,4 @@ Draws every issue as an interactive map: one card per issue, one row per area, l
 
 - Blocking edges are GitHub's native "blocked by" links, the same ones `wayfinder` creates. If the map looks wrong, the blocking links are wrong: fix them on GitHub, not in the map.
 - A long horizontal chain = a long critical path. A tall wave = lots of parallel work.
-- Use it during phase 4 too: a card that sits in an early wave but can't be tested there is a missing blocking link.
+- Use it while charting issues too: a card that sits in an early wave but can't be tested there is a missing blocking link.

@@ -1,6 +1,6 @@
 # Issue trackers
 
-behalf doesn't need GitHub Issues. Linear, Jira, Notion and other trackers with a good connection to Claude (MCP or API) work too. The method only needs four things from a tracker.
+behalf doesn't need GitHub Issues. Linear, Jira, Notion and other trackers with a good connection to Claude (MCP or API) work too. These practices only need four things from a tracker.
 
 ## What the tracker must do
 

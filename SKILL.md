@@ -1,64 +1,65 @@
 ---
 name: behalf
-description: Run a software project as product owner + QA while fresh, specialised agents code, review and fix: airtight docs, testable issue chains, @claude delegation, review loops.
+description: Good practices for building software as product owner + QA while fresh, specialised agents code, review and fix: docs first, testable issue chains, @claude delegation, review loops.
 ---
 
 # behalf — agents build, you own the product
 
-The human is **product owner and QA**. They no longer code. They hold the vision, make every decision, review PRs and test. Agents write, review and fix the code, on their behalf.
+A collection of **good practices** for working with coding agents, gathered from real projects where the human acts as **product owner and QA** and agents write, review and fix the code, on their behalf.
 
-Use this skill to set up a new project this way, to bring a project already in progress into it, to plan a new chunk of work, or whenever you work in a project that already runs it.
+This is not a strict method. Pick the practices that fit your project, in any order, and adapt them. Each one helps on its own; together they let you run many agents in parallel while you only decide, review and test.
 
-## Where to start
+## How to use this skill
 
-- **New project** → phase 1.
-- **Project already in progress** → [adopt.md](adopt.md): document what exists, then add the pipeline one piece at a time.
+- When the user starts a project, plans work, sets up agents, or asks how to work better with agents: suggest the practices that fit their situation, not the whole list.
+- When a project already follows some of them, respect what's there and suggest the next most useful one.
+- Never impose a tool. The skills, trackers and CI named here are what worked for us; anything that does the same job is fine.
 
-## Any issue tracker
+## The practices
 
-GitHub Issues is the simplest (the executor wakes up on an issue comment), but Linear, Jira, Notion and other well-connected trackers work too. What the method needs from a tracker: issues, **native blocking links**, labels, and a way to start the executor. See [trackers.md](trackers.md).
-
-## Scope
-
-behalf is a method for **building software**: code, PRs, review, QA. Other work on the same product (marketing, content, sales) mostly runs outside it. Its principles still make good habits there: decide before doing, write decisions down, small checkable steps, fresh specialised agents, the human only steps in where they're needed.
-
-## The method in 6 phases
-
-| Phase | What | Read |
+| Area | In short | Read |
 |---|---|---|
-| 1 | **Airtight docs** with several grilling rounds (e.g. `grill-with-docs`). Must be perfect: hours here is normal. | [phases/1-docs.md](phases/1-docs.md) |
-| 2 | **Repo rules** a fresh agent can follow (CLAUDE.md, docs index, glossary). | [phases/2-repo-rules.md](phases/2-repo-rules.md) |
-| 3 | **Agent pipeline**: executor, reviewer, fix loop, status, conflicts, preview. | [phases/3-agent-pipeline.md](phases/3-agent-pipeline.md) |
-| 4 | **Issues as a testable chain** (e.g. with `wayfinder`). Must be perfect: blocking edges decide what can be QA'd. | [phases/4-issues.md](phases/4-issues.md) |
-| 5 | **Running the work**: the launcher starts issues, loops run, the human reviews ready PRs. | [phases/5-run.md](phases/5-run.md) |
-| 6 | **Improving the system**: every repeated agent mistake becomes a rule. | [phases/6-improve.md](phases/6-improve.md) |
+| **Docs before code** | Write the product down with no grey zones, through grilling rounds, before any issue exists. | [practices/1-docs.md](practices/1-docs.md) |
+| **Repo rules for fresh agents** | Short CLAUDE.md, docs index, glossary, rules enforced by tools. | [practices/2-repo-rules.md](practices/2-repo-rules.md) |
+| **The agent pipeline** | Executor, reviewer, fix loop, merge confidence, whose-turn status, conflicts, preview, CI tests, rights. | [practices/3-agent-pipeline.md](practices/3-agent-pipeline.md) |
+| **Issues as a testable chain** | Small issues with blocking links, so every merge can be tested right away. | [practices/4-issues.md](practices/4-issues.md) |
+| **Running the work** | Launch issues, let the loops run, review only ready PRs, steer from the PR. | [practices/5-run.md](practices/5-run.md) |
+| **Improving the system** | Every repeated agent mistake becomes a rule. | [practices/6-improve.md](practices/6-improve.md) |
 
-Phases 1 and 4 are the ones that must be done perfectly. Everything downstream inherits their gaps.
+**If you only take two:** docs with no grey zones, and issues that block each other so nothing untestable gets built in parallel. These two pay off the most, and every other practice inherits their gaps.
+
+Other pages:
+- [adopt.md](adopt.md) — bringing these practices into a project already in progress, one at a time.
+- [trackers.md](trackers.md) — GitHub Issues, Linear, Jira, Notion: what a tracker needs to support these practices.
+- [stacks/](stacks/README.md) — workflow templates (GitHub Actions) for Node and Java/Gradle.
 
 ## Agents
 
 - [agents/launcher.md](agents/launcher.md) — finds the next startable issues and comments `@claude do this` on them.
-- [agents/executor-from-pr.md](agents/executor-from-pr.md) — **drive the agent from the PR**: `@claude`, inline comments, reviews, or just replying to Claude.
-- [agents/conflict-fixer.md](agents/conflict-fixer.md) — **comments `@claude fix conflicts` on PRs that conflict after a merge**. Essential with many parallel PRs.
-- [agents/build-map.md](agents/build-map.md) — draws the issue graph as an interactive map (template: [templates/build-map.html](templates/build-map.html)).
-- The executor, reviewer, relay and conflict agents are GitHub Actions: see phase 3 and [stacks/](stacks/README.md).
+- [agents/executor-from-pr.md](agents/executor-from-pr.md) — drive the agent from the PR: `@claude`, inline comments, reviews, or just replying to Claude.
+- [agents/conflict-fixer.md](agents/conflict-fixer.md) — comments `@claude fix conflicts` on PRs that conflict after a merge. Very useful with many parallel PRs.
+- [agents/build-map.md](agents/build-map.md) — draws the issue graph as an interactive map.
 
-## Core principles
+## Principles behind the practices
 
-1. **Agents run inside the repo.** Executor, reviewer and the rest run in CI on a checkout of the repo (GitHub Actions in the templates: the best fit today, not the only option): they read CLAUDE.md and docs/, run the build and the tests, and read CI. Full repo context, nothing to set up on the human's machine.
-2. **Fresh, specialised agents.** Every agent starts empty and gets only the context its job needs. A narrow job needs a small model: the reviewer runs on Haiku because it only checks a diff against written rules. Use the cheapest model that is enough.
-3. **Context lives in files, not in heads.** A fresh agent knows only what is written. Docs must be complete, dated, and say *why*.
-4. **Code decides, models signal.** Models return structured output (verdict, confidence). Workflows read it and decide. No model loops forever or takes a costly action alone.
+1. **Agents run inside the repo.** In CI, on a checkout: they read CLAUDE.md and docs/, build, test, and read CI. Full repo context, nothing to set up on the human's machine.
+2. **Fresh, specialised agents.** Each agent starts empty with only the context its job needs. A narrow job needs a small model: a reviewer that checks a diff against written rules runs fine on Haiku.
+3. **Context lives in files, not in heads.** A fresh agent knows only what is written, so write decisions down, dated, with the why.
+4. **Code decides, models signal.** Models return structured output (verdict, confidence); workflows read it and act. No model loops forever or takes a costly action alone.
 5. **One signal says whose turn it is.** Draft PR = an agent is working. Ready for review = the human's turn.
-6. **Nothing undecided gets built.** Scope comes only from the docs or the human. An agent that needs something undecided asks and stops.
-7. **A repeated agent mistake becomes a rule**, not a hand fix. That is why tickets go to agents, not to the chat: their mistakes are data.
-8. **Automated tests in CI catch regressions.** At least on the backend (frontend optional). With many agents merging in parallel, CI is what keeps yesterday's feature working.
-9. **Give agents the rights they need from day one.** Workflow permissions, allowed commands, build and test tools: set them up front. Agents can't edit their own workflows, so every missing right becomes a manual PR later. Still never merge, never push to main.
-10. **Human attention is the scarcest resource.** Everything agents write is short and result-first, with a "Next step for you" line when the human must act. Put the human's reading needs in every agent prompt.
+6. **Nothing undecided gets built.** Scope comes from the docs or the human. An agent that needs something undecided asks.
+7. **A repeated agent mistake becomes a rule**, not a hand fix. Their mistakes are data.
+8. **Automated tests in CI catch regressions**, at least on the backend. With many agents merging in parallel, CI keeps yesterday's feature working.
+9. **Give agents the rights they need from day one.** Agents can't edit their own workflows, so every missing right becomes a manual PR later. Still never merge, never push to main.
+10. **Human attention is the scarcest resource.** Agents write short, result-first messages, with a "Next step for you" line when the human must act.
+
+## Scope
+
+These practices are about **building software**: code, PRs, review, QA. Other work on the same product (marketing, content, sales) mostly runs outside them, but the principles still make good habits there.
 
 ## Claude's role in chat
 
-- Grills the human, writes decisions down, charts issues, launches work.
-- Does **not** own the vision or the strategy: the human does. Claude challenges, proposes when asked, explains simply.
-- Does **not** code issues (except when asked, or for `.github/workflows/` files the GitHub agent can't change).
-- Never adds scope. Anything new is a question for the human.
+- Helps the human grill their ideas, writes decisions down, charts issues, launches work.
+- Doesn't own the vision or the strategy: the human does. Claude challenges, proposes when asked, explains simply.
+- Leaves coding issues to the agents in the repo (unless asked, or for workflow files those agents can't change).
+- Doesn't add scope. Anything new is a question for the human.

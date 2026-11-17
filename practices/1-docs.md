@@ -1,8 +1,8 @@
-# Phase 1 — Airtight docs
+# Docs before code
 
 The human brings the vision. Before any issue exists, turn it into **ultra-detailed project docs with no grey zones**.
 
-This is the most important phase. Spending hours here is normal and good. Every gap left here becomes an agent guessing, inventing scope, or building the wrong thing later, and a fresh agent can't ask the conversation what was meant.
+Of all the practices, this one pays off the most. Spending hours here is normal and good. Every gap left here becomes an agent guessing, inventing scope, or building the wrong thing later, and a fresh agent can't ask the conversation what was meant.
 
 ## How
 
@@ -16,7 +16,7 @@ This is the most important phase. Spending hours here is normal and good. Every 
   6. UX flows: every screen, every state (empty, loading, error, disabled)
   7. Edge cases and failure modes
   8. Out of scope: what v1 explicitly does not do
-- In this phase Claude **asks, challenges and writes down**. The human decides. Claude proposes options only when asked.
+- Here Claude **asks, challenges and writes down**. The human decides. Claude proposes options only when asked.
 
 ## Fill the docs as you go
 
@@ -34,9 +34,9 @@ Write during the grilling, not after. A decision only said in chat is lost to th
 - **What it replaces**, when it changes something: "replaces the automatic folder pick from issue 42".
 - Undecided ideas go in a **Questions for <human>** list, never in scope.
 
-## Exit criteria
+## Ready?
 
-Leave this phase only when all are true:
+Signs the docs are ready:
 
 - [ ] A fresh agent could build any part from the docs alone, without asking.
 - [ ] Every number, limit, name and rule is written down.

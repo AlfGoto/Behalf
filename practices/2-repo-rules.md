@@ -1,4 +1,4 @@
-# Phase 2 — Repo rules for fresh agents
+# Repo rules for fresh agents
 
 Every agent starts with nothing. These files are all it gets.
 

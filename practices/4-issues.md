@@ -1,4 +1,4 @@
-# Phase 4 — Issues as a testable chain
+# Issues as a testable chain
 
 Chart the work as issues with **native blocking links** on the tracker (GitHub Issues, Linear, Jira, Notion…: see [trackers.md](../trackers.md)). A skill helps: we use `wayfinder` from Matt Pocock's skills (it picks the tracker via `setup-matt-pocock-skills`). Any skill that writes issues with blocking links works, or write them by hand. The human reads them before any work starts.
 
