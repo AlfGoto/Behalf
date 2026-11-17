@@ -4,6 +4,10 @@ A Claude skill that collects **good practices** for building software as **produ
 
 Not a strict method: take what fits your project. The practices that pay off most: docs with no grey zones before any code, issues chained so every merge can be tested right away, and PRs you only look at when a status says it's your turn.
 
+## Used in production
+
+These practices were used to build [Flocon AI](https://flocon-ai.com), a tool to create and publish SEO pages on your own website straight from your AI assistant (Claude, Cursor…) through an MCP server.
+
 ## What's inside
 
 ```
