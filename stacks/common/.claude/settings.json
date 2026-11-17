@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git fetch:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr comment:*)"
+    ],
+    "deny": [
+      "Bash(git push origin main:*)",
+      "Bash(git push origin HEAD:main:*)",
+      "Bash(git push -u origin main:*)",
+      "Bash(git push --force origin main:*)",
+      "Bash(git push -f origin main:*)"
+    ]
+  }
+}

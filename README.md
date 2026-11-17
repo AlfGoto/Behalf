@@ -1,0 +1,59 @@
+# behalf
+
+A Claude skill for building software as **product owner + QA** while fresh, specialised agents code, review and fix, on your behalf.
+
+You write airtight docs, chart issues that can be tested one after the other, and only look at PRs when a status says it's your turn. Agents do the rest.
+
+## What's inside
+
+```
+SKILL.md                  entry point: principles + the 6 phases
+adopt.md                  bring a project already in progress into behalf
+trackers.md               GitHub Issues, Linear, Jira, Notion: what the tracker must do
+phases/
+  1-docs.md               airtight docs with several grill-with-docs rounds
+  2-repo-rules.md         CLAUDE.md, docs index, glossary, tool-enforced rules
+  3-agent-pipeline.md     executor, reviewer, fix loop, confidence score, status, costs
+  4-issues.md             wayfinder issues + the testability rule
+  5-run.md                launch, review loop, QA, merge
+  6-improve.md            mistakes become rules, simulations, retro
+agents/
+  launcher.md             finds startable issues and comments "@claude do this"
+  executor-from-pr.md     drive the agent from the PR (@claude, inline, review, plain reply)
+  conflict-fixer.md       "@claude fix conflicts" on PRs that conflict after a merge
+  build-map.md            interactive map of the issue graph
+templates/
+  build-map.html          the map (paste your data in)
+  build-map-data.sh       GitHub issues + blocking links → map data
+stacks/                   ready-to-adapt workflows and templates
+  common/                 executor, reviewer + fix loop, conflict fixer, PR template, CLAUDE.md, glossary
+  node/                   Node / TypeScript setup + CI tests
+  java-gradle/            Java / Gradle setup + CI tests + /preview notes
+```
+
+## Scope
+
+Made for **building software**. Marketing, content or sales on the same product mostly run outside it, but the principles (decide first, write it down, small checkable steps, the human only where needed) are good habits there too.
+
+Works on a new project (start at phase 1) or one already in progress (start with `adopt.md`).
+
+## Needs
+
+- [Matt Pocock's skills](https://github.com/mattpocock/skills): `grill-with-docs` (phase 1) and `wayfinder` (phase 4).
+- GitHub + `anthropics/claude-code-action` with a `CLAUDE_CODE_OAUTH_TOKEN` secret. The agents run as Actions inside the repo, with its full context.
+- An issue tracker with native blocking links: GitHub Issues, Linear, Jira, Notion… (`trackers.md`).
+- Automated tests in CI, at least on the backend, so parallel merges don't bring regressions.
+- `gh` and `jq` for the map script.
+
+## Install
+
+```
+git clone https://github.com/AlfGoto/behalf ~/.claude/skills/behalf
+```
+
+Or copy the folder into your skills folder, or upload it as a skill in Claude.
+
+## The two steps to never rush
+
+1. **Docs** (phase 1): grill until a round finds nothing new. Hours is normal.
+2. **Issues** (phase 4): an issue that can't be tested without another is blocked by it, so the human can QA every merge right away.
