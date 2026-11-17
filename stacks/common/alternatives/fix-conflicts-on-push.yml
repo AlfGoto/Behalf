@@ -48,7 +48,7 @@ jobs:
           for n in $(gh api "repos/$REPO/pulls?state=open&base=main&per_page=100" --jq '.[].number'); do
             # GitHub computes "mergeable" in the background after a push: null = not ready yet.
             state=""
-            for i in 1 2 3 4 5 6; do
+            for _ in 1 2 3 4 5 6; do
               m=$(gh api "repos/$REPO/pulls/$n" --jq '.mergeable')
               if [ "$m" != "null" ]; then
                 state=$(gh api "repos/$REPO/pulls/$n" --jq '.mergeable_state')
@@ -63,7 +63,7 @@ jobs:
             if [ "$last" = '"@claude fix conflicts"' ]; then echo "  already asked, skip"; continue; fi
             prs="$prs $n"
           done
-          prs=$(echo $prs)
+          prs=${prs# }
           echo "Conflicting PRs: ${prs:-none}"
           if [ -n "$prs" ]; then
             gh workflow run fix-conflicts-on-push.yml -R "$REPO" --ref main -f prs="$prs"

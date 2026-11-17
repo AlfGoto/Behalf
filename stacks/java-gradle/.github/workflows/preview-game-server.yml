@@ -104,7 +104,7 @@ jobs:
           # The server is public: keep the GitHub token and RCON password out of its environment.
           nohup env -u GH_TOKEN -u RCON_PASSWORD ./gradlew runServer --no-daemon > server.log 2>&1 &
           # Build + Paper download + world generation.
-          for i in $(seq 1 120); do
+          for _ in $(seq 1 120); do
             if grep -q 'Done (' server.log; then
               echo "Server is up"
               # The admin is op on every preview. Not fatal if it fails.

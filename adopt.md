@@ -13,9 +13,9 @@ The code holds decisions nobody wrote down. A fresh agent can't guess them.
 
 ## 2. Add the repo rules
 
-If the project has a UI but no written design system, extract one from what exists (colors, fonts, spacing, components in use) and write it down: frontend agents will follow it instead of inventing.
-
 Write `CLAUDE.md` and `docs/README.md` ([practice 2](practices/2-repo-rules.md)). Turn the rules the team already follows by habit into lint rules where you can.
+
+If the project has a UI but no written design system, extract one from what exists (colors, fonts, spacing, components in use) and write it down: frontend agents will follow it instead of inventing.
 
 ## 3. Install the pipeline in order
 

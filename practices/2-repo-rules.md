@@ -27,7 +27,7 @@ A tool can't forget. Mark tool-enforced rules in CLAUDE.md so agents know why th
 
 - Lint rule → `(lint)` — e.g. no native `<select>`, no custom wrapper classes.
 - Build failure → `(build)` — e.g. a package can't import from `back/`.
-- `.claude/settings.json` → allow branch pushes, deny every push to main (`stacks/common/.claude/settings.json`).
+- `.claude/settings.json` → allow branch pushes, deny pushes that name main, and deny a bare `git push` so the branch is always named (`stacks/common/.claude/settings.json`). These rules match the command text, not the current branch, so keep "never push to main" in CLAUDE.md too.
 
 ## docs/README.md
 

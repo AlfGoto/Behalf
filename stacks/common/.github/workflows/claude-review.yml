@@ -6,6 +6,8 @@ name: claude-review
 # - Draft             → an agent is working (review ↔ fix loop). Don't look yet.
 # - Ready for review  → the human's turn (review says good, loop stopped, or review failed).
 #
+# Docs-only PRs (docs/, CONTEXT.md, README.md) skip the review: they get 5/5 and go ready in seconds.
+#
 # Fill in OWNER_LOGIN and PROJECT_CHECKS below.
 
 env:
@@ -19,11 +21,8 @@ env:
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review]
-    # Docs-only PRs get no review (0 Actions minutes).
-    paths-ignore:
-      - 'docs/**'
-      - 'CONTEXT.md'
-      - 'README.md'
+    # No paths-ignore on purpose: a skipped workflow would leave a docs-only PR in draft forever.
+    # The `scope` step below skips the review instead.
 
 concurrency:
   group: claude-review-${{ github.event.pull_request.number }}
@@ -34,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
+      docs_only: ${{ steps.scope.outputs.docs_only }}
       mode: ${{ steps.loop.outputs.mode }}
       verdict: ${{ steps.review.outputs.structured_output && fromJSON(steps.review.outputs.structured_output).verdict || '' }}
       confidence: ${{ steps.review.outputs.structured_output && fromJSON(steps.review.outputs.structured_output).confidence || '' }}
@@ -44,13 +44,26 @@ jobs:
       checks: read
       actions: read
     steps:
-      - uses: actions/checkout@v4
+      # Docs-only PR? Then no review: pr-status gives it 5/5 and marks it ready.
+      - id: scope
+        name: Docs-only?
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          files=$(gh api --paginate "repos/${{ github.repository }}/pulls/$PR/files?per_page=100" --jq '.[].filename')
+          other=$(grep -v -E '^(docs/|CONTEXT\.md$|README\.md$)' <<< "$files" || true)
+          if [ -n "$files" ] && [ -z "$other" ]; then echo "docs_only=true" >> "$GITHUB_OUTPUT"; fi
+
+      - if: steps.scope.outputs.docs_only != 'true'
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       # Count past fix rounds (hidden marker in the relay's review comments).
       - id: loop
         name: Count fix rounds
+        if: steps.scope.outputs.docs_only != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
@@ -64,6 +77,7 @@ jobs:
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
 
       - id: review
+        if: steps.scope.outputs.docs_only != 'true'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -94,7 +108,7 @@ jobs:
             5. docs/ (or the glossary) is updated if a decision or a term changed.
             6. Simplicity: is there a simpler way? List what is not needed for the PR's goal. Suggest the smaller version.
             7. PR body "How to test": step-by-step checkboxes, every command written out in full, each with the
-               result to expect. Check each step works on this branch. A wrong, missing or vague step = "fix first".
+               result to expect. Check each step against the code on this branch (commands, ids, messages exist). A wrong, missing or vague step = "fix first".
 
             How to write:
             - The human reads this fast. Verdict and must-fix items first, then the rest.
@@ -132,6 +146,7 @@ jobs:
       # triggers claude.yml (GITHUB_TOKEN events never trigger workflows; the first step's token is revoked).
       - name: Ask @claude to fix (loop)
         if: >-
+          steps.scope.outputs.docs_only != 'true' &&
           steps.loop.outputs.mode != 'off' &&
           steps.review.outputs.structured_output != '' &&
           fromJSON(steps.review.outputs.structured_output).verdict == 'fix'
@@ -164,7 +179,8 @@ jobs:
           PR: ${{ github.event.pull_request.number }}
           VERDICT: ${{ needs.review.outputs.verdict }}
           MODE: ${{ needs.review.outputs.mode }}
-          CONFIDENCE: ${{ needs.review.outputs.confidence }}
+          # Docs-only PRs skip the review: 5/5, and an empty verdict marks them ready.
+          CONFIDENCE: ${{ needs.review.outputs.docs_only == 'true' && '5' || needs.review.outputs.confidence }}
         run: |
           # Title prefix "N/5 ": how safe it is to merge without testing by hand.
           if [ -n "$CONFIDENCE" ]; then
