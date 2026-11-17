@@ -35,7 +35,7 @@ button,input,select{font:inherit;color:inherit}
 header{padding:14px max(16px,env(safe-area-inset-left,0px)) 12px;border-bottom:1px solid var(--border);background:var(--card);display:flex;flex-direction:column;gap:12px}
 .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 h1{font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em}
-.progress{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;flex:1;min-width:200px}
+.overall{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;flex:1;min-width:200px}
 .bar{flex:1;max-width:280px;height:6px;border-radius:99px;background:var(--secondary);overflow:hidden;display:flex}
 .bar i{display:block;height:100%}
 .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -106,7 +106,7 @@ a.gh{display:inline-flex;margin-top:14px;font-size:13.5px;font-weight:500;color:
 </head>
 <body>
 <header>
-  <div class="top"><h1 id="title"></h1><div class="progress"><div class="bar" id="bar"></div><span id="ptext"></span></div></div>
+  <div class="top"><h1 id="title"></h1><div class="overall"><div class="bar" id="bar"></div><span id="ptext"></span></div></div>
   <div class="tools">
     <div id="chips" style="display:contents"></div>
     <span class="sep"></span>
@@ -145,7 +145,9 @@ const W=228,H=56,GX=120,GY=16,LABELW=170,PADX=24,TOP=56,LPAD=22,LGAP=14;
 const counts={}; DATA.forEach(d=>(d.a.length?d.a:["other"]).forEach(a=>counts[a]=(counts[a]||0)+1));
 const LANES=CONFIG.lanes.length?CONFIG.lanes:Object.keys(counts).sort((x,y)=>counts[y]-counts[x]).map(k=>[k,k[0].toUpperCase()+k.slice(1),""]);
 const laneKeys=LANES.map(l=>l[0]);
-DATA.forEach(d=>d.lane=laneKeys.find(k=>d.a.includes(k))||(d.a.length?laneKeys.find(k=>k===d.a[0]):null)||laneKeys[laneKeys.length-1]);
+// No matching row: issues without an area go to "other", the rest to the last row.
+const fallback=laneKeys.includes("other")?"other":laneKeys[laneKeys.length-1];
+DATA.forEach(d=>d.lane=laneKeys.find(k=>d.a.includes(k))||fallback);
 const memo={};
 function depth(n){ if(n in memo) return memo[n]; memo[n]=0; const d=byN.get(n); return memo[n]=d.b.length?1+Math.max(...d.b.map(depth)):0; }
 DATA.forEach(d=>d.d=depth(d.n));

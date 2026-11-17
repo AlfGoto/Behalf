@@ -43,7 +43,7 @@ Works on a new project or one already in progress (`adopt.md`). Take what fits.
 
 ## What you need
 
-**Required**
+**Needed for the full pipeline**
 - A code host where agents can run inside the repo on each issue and PR. **GitHub + `anthropics/claude-code-action`** is the best fit today, and all templates here use it. Other hosts can work with the same ideas.
 - An issue tracker with **native blocking links**: GitHub Issues, Linear, Jira, Notion… (`trackers.md`).
 - **Automated tests in CI**, at least on the backend, so parallel merges don't bring regressions.

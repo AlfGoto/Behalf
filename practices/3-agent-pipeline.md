@@ -7,13 +7,13 @@ GitHub Actions agents built on `anthropics/claude-code-action`. Working files fo
 | Agent | Trigger | Model | Can do |
 |---|---|---|---|
 | **Executor** (`claude.yml`) | `@claude` on an issue/PR (comment, inline comment or review), or any human reply to a Claude comment | Sonnet | Code, run the tests of the touched folder, open a **draft** PR assigned to the human with `Fixes #n` |
-| **Reviewer** (`claude-review.yml`) | Every PR push, except docs-only PRs | Haiku | Comment only. Never approve, never merge |
+| **Reviewer** (`claude-review.yml`) | Every PR push. Docs-only PRs skip it: `5/5`, ready right away | Haiku | Comment only. Never approve, never merge |
 | **Relay** (extra step) | Reviewer verdict = `fix` | Haiku, 3 turns, 1 command | Post "@claude please fix (round n/3)" |
 | **Conflict fixer** | After main changes | Haiku relay | Comment "@claude fix conflicts" on PRs that now conflict. **Essential with many parallel PRs**: [agents/conflict-fixer.md](../agents/conflict-fixer.md) |
 | **Preview** | `/preview` comment or a preview deploy | none | A live place for the human to test the PR |
 | **Launcher** | On demand, schedule, or after a merge | small | Start the next issues: [agents/launcher.md](../agents/launcher.md) |
 
-**They run inside the repo.** Each agent is a GitHub Actions job on a checkout of the PR branch: it reads CLAUDE.md, docs/ and the code, installs dependencies, builds, runs the tests, and reads CI results. It has the whole repo as context, and the human installs nothing locally. This is what makes a small model enough for the review: it doesn't need to be told the project, it reads it.
+**They run inside the repo.** Each agent is a GitHub Actions job on a checkout of the PR branch: it reads CLAUDE.md, docs/ and the code. The executor also installs dependencies, builds and runs the tests; the reviewer reads the CI result. It has the whole repo as context, and the human installs nothing locally. This is what makes a small model enough for the review: it doesn't need to be told the project, it reads it.
 
 Why so many small agents: a narrow job with a short context is more reliable and needs a cheaper model. The reviewer doesn't need to understand the product, only to check a diff against written rules.
 
@@ -43,7 +43,7 @@ Examples: `stacks/node/.github/workflows/test-back.yml`, `test-front.yml`; `stac
 4. Tests: read CI **once** (`gh pr checks`, never `--watch`). Missing tests on trivial code is not a reason to block.
 5. Docs updated if a decision changed.
 6. Is there a simpler way? List what isn't needed.
-7. "How to test" is correct, complete and works on this branch.
+7. "How to test" is correct and complete: every command, id and message exists in the code on this branch.
 
 ## Structured output
 
@@ -63,7 +63,7 @@ The workflow puts the score in the PR title (`4/5 Add CSV export`), so the human
 ## Fix loop
 
 - Reviewer says `fix` → relay asks the executor to fix → executor pushes → reviewer runs again.
-- **Capped at 3 rounds**, counted with a hidden HTML marker in reviews (`<!-- project-autofix -->`). Then the human is pinged once and the loop goes quiet.
+- **Capped at 3 rounds**, counted with a hidden HTML marker in reviews (`<!-- autofix -->`). Then the human is pinged once and the loop goes quiet.
 - The executor may **disagree**: it replies to the comment instead of changing the code.
 - Stops early when the executor has nothing to push.
 
@@ -97,7 +97,7 @@ When an agent hits a missing right anyway: add it to the workflow in one PR (Cla
 ## Cost
 - Push once, at the end. Never wait or poll CI: the runner is billed while it waits.
 - Run only the tests of the touched folder.
-- `paths-ignore` docs for the review (docs-only PRs cost 0 minutes; give them `5/5`).
+- Docs-only PRs skip the review: a first step checks the changed files, then the PR gets `5/5` and goes ready. Don't use `paths-ignore` for this: a skipped workflow leaves the PR in draft forever.
 - `timeout-minutes` on every job. `cancel-in-progress` for the review, but a **queue** (no cancel) for the executor, so a random comment never replaces a real `@claude` request.
 
 ## PR template

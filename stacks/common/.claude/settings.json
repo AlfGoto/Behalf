@@ -12,6 +12,8 @@
       "Bash(gh pr comment:*)"
     ],
     "deny": [
+      "Bash(git push)",
+      "Bash(git push origin)",
       "Bash(git push origin main:*)",
       "Bash(git push origin HEAD:main:*)",
       "Bash(git push -u origin main:*)",
