@@ -25,7 +25,7 @@ Whatever the bridge, keep the rest the same: one issue = one draft PR, review lo
 
 ## What changes per tracker
 
-- **`wayfinder`**: run `setup-matt-pocock-skills` once to pick the tracker; it then creates the map and the blocking links there.
+- **Ticketing skill**: point it at your tracker (with `wayfinder`, run `setup-matt-pocock-skills` once); it then creates the issues and blocking links there.
 - **Launcher** ([agents/launcher.md](agents/launcher.md)): same filter (open, all blockers done, no open PR, not launched, not `hitl` / grilling), read from the tracker instead of the GitHub API.
 - **Build map** ([agents/build-map.md](agents/build-map.md)): `templates/build-map-data.sh` reads GitHub. For another tracker, produce the same JSON (`n, t, st, a, h, g, b, pr`) from its API and paste it into the template. The map itself doesn't change.
 - **Statuses**: map the tracker's states to done / progress / blocked / hitl / ready, using the same rules.

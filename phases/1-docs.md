@@ -6,7 +6,7 @@ This is the most important phase. Spending hours here is normal and good. Every 
 
 ## How
 
-- Run **several rounds of `grill-with-docs`** (Matt Pocock skill = `grilling` + `domain-modeling`).
+- Run **several grilling rounds**: Claude interviews you relentlessly and writes the docs as it goes. A skill helps (we use `grill-with-docs` from Matt Pocock's skills = `grilling` + `domain-modeling`), but any grilling skill, or a disciplined chat, works. The rounds matter, not the tool.
 - **One fresh session per round**, each with its own focus. Suggested rounds:
   1. Product: who it's for, the problem, what "done" looks like for v1
   2. Domain and vocabulary: every concept, its one name, the words to avoid

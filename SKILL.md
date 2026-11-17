@@ -26,10 +26,10 @@ behalf is a method for **building software**: code, PRs, review, QA. Other work 
 
 | Phase | What | Read |
 |---|---|---|
-| 1 | **Airtight docs** with several `grill-with-docs` rounds. Must be perfect: hours here is normal. | [phases/1-docs.md](phases/1-docs.md) |
+| 1 | **Airtight docs** with several grilling rounds (e.g. `grill-with-docs`). Must be perfect: hours here is normal. | [phases/1-docs.md](phases/1-docs.md) |
 | 2 | **Repo rules** a fresh agent can follow (CLAUDE.md, docs index, glossary). | [phases/2-repo-rules.md](phases/2-repo-rules.md) |
 | 3 | **Agent pipeline**: executor, reviewer, fix loop, status, conflicts, preview. | [phases/3-agent-pipeline.md](phases/3-agent-pipeline.md) |
-| 4 | **Issues as a testable chain** with `wayfinder`. Must be perfect: blocking edges decide what can be QA'd. | [phases/4-issues.md](phases/4-issues.md) |
+| 4 | **Issues as a testable chain** (e.g. with `wayfinder`). Must be perfect: blocking edges decide what can be QA'd. | [phases/4-issues.md](phases/4-issues.md) |
 | 5 | **Running the work**: the launcher starts issues, loops run, the human reviews ready PRs. | [phases/5-run.md](phases/5-run.md) |
 | 6 | **Improving the system**: every repeated agent mistake becomes a rule. | [phases/6-improve.md](phases/6-improve.md) |
 
@@ -45,7 +45,7 @@ Phases 1 and 4 are the ones that must be done perfectly. Everything downstream i
 
 ## Core principles
 
-1. **Agents run inside the repo.** Executor, reviewer and the rest run as GitHub Actions on a checkout of the repo: they read CLAUDE.md and docs/, run the build and the tests, and read CI. Full repo context, nothing to set up on the human's machine.
+1. **Agents run inside the repo.** Executor, reviewer and the rest run in CI on a checkout of the repo (GitHub Actions in the templates: the best fit today, not the only option): they read CLAUDE.md and docs/, run the build and the tests, and read CI. Full repo context, nothing to set up on the human's machine.
 2. **Fresh, specialised agents.** Every agent starts empty and gets only the context its job needs. A narrow job needs a small model: the reviewer runs on Haiku because it only checks a diff against written rules. Use the cheapest model that is enough.
 3. **Context lives in files, not in heads.** A fresh agent knows only what is written. Docs must be complete, dated, and say *why*.
 4. **Code decides, models signal.** Models return structured output (verdict, confidence). Workflows read it and decide. No model loops forever or takes a costly action alone.

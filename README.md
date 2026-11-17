@@ -11,10 +11,10 @@ SKILL.md                  entry point: principles + the 6 phases
 adopt.md                  bring a project already in progress into behalf
 trackers.md               GitHub Issues, Linear, Jira, Notion: what the tracker must do
 phases/
-  1-docs.md               airtight docs with several grill-with-docs rounds
+  1-docs.md               airtight docs with several grilling rounds
   2-repo-rules.md         CLAUDE.md, docs index, glossary, tool-enforced rules
   3-agent-pipeline.md     executor, reviewer, fix loop, confidence score, status, costs
-  4-issues.md             wayfinder issues + the testability rule
+  4-issues.md             issues with blocking links + the testability rule
   5-run.md                launch, review loop, QA, merge
   6-improve.md            mistakes become rules, simulations, retro
 agents/
@@ -37,13 +37,19 @@ Made for **building software**. Marketing, content or sales on the same product 
 
 Works on a new project (start at phase 1) or one already in progress (start with `adopt.md`).
 
-## Needs
+## What you need
 
-- [Matt Pocock's skills](https://github.com/mattpocock/skills): `grill-with-docs` (phase 1) and `wayfinder` (phase 4).
-- GitHub + `anthropics/claude-code-action` with a `CLAUDE_CODE_OAUTH_TOKEN` secret. The agents run as Actions inside the repo, with its full context.
-- An issue tracker with native blocking links: GitHub Issues, Linear, Jira, Notion… (`trackers.md`).
-- Automated tests in CI, at least on the backend, so parallel merges don't bring regressions.
-- `gh` and `jq` for the map script.
+**Required**
+- A code host where agents can run inside the repo on each issue and PR. **GitHub + `anthropics/claude-code-action`** is the best fit today, and all templates here use it. Other hosts can work with the same ideas.
+- An issue tracker with **native blocking links**: GitHub Issues, Linear, Jira, Notion… (`trackers.md`).
+- **Automated tests in CI**, at least on the backend, so parallel merges don't bring regressions.
+
+**Recommended, not required**
+- A grilling skill for phase 1. We use `grill-with-docs` from [Matt Pocock's skills](https://github.com/mattpocock/skills); any skill that interviews you and writes docs as it goes works, and so does a disciplined chat.
+- A ticketing skill for phase 4 that creates issues **with blocking links**. We use `wayfinder` (same repo); any other works, or write the issues by hand. What matters is the testability rule, not the tool.
+
+**Optional**
+- `gh` and `jq`, only to run `templates/build-map-data.sh`. Any agent with access to your tracker can produce the same JSON instead.
 
 ## Install
 

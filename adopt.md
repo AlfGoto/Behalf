@@ -6,7 +6,7 @@ You don't need to start from zero. Bring an existing project in step by step. Ea
 
 The code holds decisions nobody wrote down. A fresh agent can't guess them.
 
-- Run `grill-with-docs` **on the existing project**: Claude reads the code and the current docs, then grills the human on what it finds ("Is this limit on purpose?", "Two names for the same thing: which one is right?").
+- Run grilling rounds (e.g. `grill-with-docs`) **on the existing project**: Claude reads the code and the current docs, then grills the human on what it finds ("Is this limit on purpose?", "Two names for the same thing: which one is right?").
 - Write each decision in `docs/` as it's confirmed: dated, attributed, with the why. Mark old choices you keep but wouldn't make again ("legacy, keep as is").
 - Build the glossary (`CONTEXT.md`) from the names already in the code, with the `_Avoid_` words for the duplicates.
 - Same exit criteria as [phase 1](phases/1-docs.md), but only for the parts you'll touch next. The rest can be documented when work reaches it.
