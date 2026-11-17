@@ -94,6 +94,17 @@ Then hold the line on what they must never do: no rebase, reset, force push, mer
 
 When an agent hits a missing right anyway: add it to the workflow in one PR (Claude opens it, since the GitHub agent can't), and note it here for the next project.
 
+## Security
+
+Agents read issue and PR text and act with write access. **Anyone who can write that text can try to steer the agent** (prompt injection). Keep the blast radius small:
+
+- **Who can trigger:** only people with write access. `claude-code-action` checks this by default; don't widen it (`allowed_non_write_users`). For your own `/command` workflows, check `author_association` like `preview-game-server.yml` does.
+- **Bots:** allow only the bots the loop needs (`allowed_bots: "claude[bot]"`), never `*`.
+- **Protect `main`:** required review + required CI. The agent opens PRs; **only a human merges**.
+- **Public repo:** outsiders can open issues and comment. They can't trigger the agent, but the agent may read their text inside a thread. Review what it pushed before you merge, as with any PR.
+- **Secrets:** give each job only the secrets it needs. A job that runs PR code next to a secret (e.g. a preview server) must refuse fork PRs and non-write commenters, and keep tokens out of the process that runs that code.
+- **Tools:** list commands in `--allowedTools` one by one rather than allowing all of Bash.
+
 ## Cost
 - Push once, at the end. Never wait or poll CI: the runner is billed while it waits.
 - Run only the tests of the touched folder.
