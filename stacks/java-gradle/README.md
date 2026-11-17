@@ -31,6 +31,11 @@ Set the Java version your project needs.
           restrict_untrusted_prs: ${{ (github.event.issue.user.login || github.event.pull_request.user.login) == 'claude[bot]' && 'false' || 'true' }}
 ```
 
+**This turns off a safety check, so use it only if you need it.**
+- Try without it first. Add it only if the executor really can't build or test its own PRs.
+- It trusts PRs written by `claude[bot]` only. Every other PR stays restricted.
+- What gets into those PRs comes from issue and PR text, so keep the safeguards in "Security" (`practices/3-agent-pipeline.md`): only people with write access trigger the agent, protected `main`, no merge by the agent.
+
 ## CI
 
 - `test.yml`: `./gradlew build` (compiles + tests) on every PR that touches code or build files.
