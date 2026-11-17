@@ -27,6 +27,21 @@ Write during the grilling, not after. A decision only said in chat is lost to th
 - `docs/adr/`: decisions with real trade-offs
 - The Claude Project's own docs/memory, so the chat side stays in sync
 
+## A design system, if there's a UI
+
+Frontend agents work much better with a design system to follow. Without one, each agent invents its own colors, spacing and components, and the UI drifts a little more with every PR.
+
+- **Ideally before the issues**: decide the look once, write it down, and every UI issue just follows it.
+- **Or as the first issues**: "design system: tokens", then "base components", and every UI issue is blocked by them (see [issues as a testable chain](4-issues.md)).
+
+What it holds, in the repo, readable by agents:
+- **Tokens**: colors (light and dark), type scale and fonts, spacing, radius, shadows. One file (e.g. `tokens.json` or CSS variables).
+- **Components**: the base set (button, input, select, dialog, tooltip…) with when to use each.
+- **Rules**: what's forbidden (raw hex values, native selects, gradients…), how disabled, loading, empty and error states look.
+- **A README** an agent reads before any UI work.
+
+Make what you can a lint rule ("no raw hex", "no native `<select>`"): agents follow a failing lint better than a sentence.
+
 ## How a decision is written
 
 - **Dated and attributed**: `(Sam, 2026-03-14)`.

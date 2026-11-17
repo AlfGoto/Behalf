@@ -19,7 +19,7 @@ This is not a strict method. Pick the practices that fit your project, in any or
 
 | Area | In short | Read |
 |---|---|---|
-| **Docs before code** | Write the product down with no grey zones, through grilling rounds, before any issue exists. | [practices/1-docs.md](practices/1-docs.md) |
+| **Docs before code** | Write the product down with no grey zones, through grilling rounds, before any issue exists. If there's a UI, a design system too. | [practices/1-docs.md](practices/1-docs.md) |
 | **Repo rules for fresh agents** | Short CLAUDE.md, docs index, glossary, rules enforced by tools. | [practices/2-repo-rules.md](practices/2-repo-rules.md) |
 | **The agent pipeline** | Executor, reviewer, fix loop, merge confidence, whose-turn status, conflicts, preview, CI tests, rights. | [practices/3-agent-pipeline.md](practices/3-agent-pipeline.md) |
 | **Issues as a testable chain** | Small issues with blocking links, so every merge can be tested right away. | [practices/4-issues.md](practices/4-issues.md) |

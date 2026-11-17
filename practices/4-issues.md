@@ -5,7 +5,7 @@ Chart the work as issues with **native blocking links** on the tracker (GitHub I
 ## Issue rules
 
 - **Small but not tiny**: one agent session, one focused PR. Small PRs make the Haiku reviewer precise.
-- **Global → precise**: foundations first, then features, then polish.
+- **Global → precise**: foundations first, then features, then polish. If there's a UI and no design system yet, its issues (tokens, then base components) come first and **block every UI issue**.
 - **Stands alone**: a fresh agent gets only the issue + the docs. Link the doc sections it needs.
 - **Only decided scope.** Open questions go under "Questions for <human>".
 - **Labels** that the launcher and the map read: area (`front`, `back`…), `hitl` (needs the human: an account, a secret, a decision), `grilling` (a decision ticket, not code).

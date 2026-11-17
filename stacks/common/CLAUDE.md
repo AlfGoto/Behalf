@@ -21,6 +21,10 @@
 - <Security rule: who can write what, sanitizing, no secrets in code>.
 - <A rule the build enforces>. (build)
 
+## UI
+- **UI work → read `docs/design-system/README.md` first.** Use its tokens and components. Never paste raw colors, sizes or fonts.
+- <A UI rule the lint enforces, e.g. no native `<select>`>. (lint)
+
 ## Tests
 - **Feature first.** Code the feature, then add tests if it makes sense.
 - Few, simple tests on the logic that matters (<limits, auth, money…>). No tests for trivial code.
