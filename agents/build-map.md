@@ -19,11 +19,12 @@ Draws every issue as an interactive map: one card per issue, one row per area, l
 
 ## How to build or update it
 
-1. Get the data (REST only, works where GraphQL is blocked):
+1. Get the data. With `gh` + `jq` installed (REST only, works where GraphQL is blocked):
    ```
    templates/build-map-data.sh <owner>/<repo> > data.json
    ```
    Areas come from `area:<name>` labels (else from the plain labels). The `wayfinder:map` issue is left out.
+   No `gh`/`jq`, or another tracker: ask any agent connected to the tracker to produce the same JSON (fields listed in the template).
 2. Copy `templates/build-map.html`. In the `EDIT ME` block, set `CONFIG` (title, repo URL, update time, optional lane order) and replace `DATA = []` with the content of `data.json`.
 3. Publish it as an artifact (or open it as a local file). To update, re-run step 1 and replace `DATA`: keep the same artifact.
 4. When the human asks for an update, also give them the **% of issues done** in your reply.
@@ -32,4 +33,4 @@ Draws every issue as an interactive map: one card per issue, one row per area, l
 
 - Blocking edges are GitHub's native "blocked by" links, the same ones `wayfinder` creates. If the map looks wrong, the blocking links are wrong: fix them on GitHub, not in the map.
 - A long horizontal chain = a long critical path. A tall wave = lots of parallel work.
-- Use it during phase 4 too: a card that sits in an early wave but can't be tested there is a missing blocking link.
+- Use it while charting issues too: a card that sits in an early wave but can't be tested there is a missing blocking link.

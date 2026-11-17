@@ -1,4 +1,4 @@
-# Phase 3 — The agent pipeline
+# The agent pipeline
 
 GitHub Actions agents built on `anthropics/claude-code-action`. Working files for two stacks are in [stacks/](../stacks/README.md). Adapt the commands and rules, keep the mechanics.
 

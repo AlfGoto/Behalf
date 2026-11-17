@@ -1,6 +1,6 @@
 # Stacks
 
-The workflows come from real projects that run this method, with the project details taken out. Replace every `<…>` and `your-github-login`.
+The workflows come from real projects that use these practices, with the project details taken out. Replace every `<…>` and `your-github-login`.
 
 ```
 common/                         every project
@@ -24,11 +24,11 @@ java-gradle/                    setup step, allowed commands, test.yml,
 3. Replace the `STACK SETUP` comment in `claude.yml` with your stack's setup step (`node/README.md`, `java-gradle/README.md`).
 4. Copy your stack's test workflow(s). Backend tests in CI: have them.
 5. Add the repo secret `CLAUDE_CODE_OAUTH_TOKEN` and install the Claude GitHub app on the repo.
-6. Fill in `CLAUDE.md` and `CONTEXT.md` from your docs (phase 1).
+6. Fill in `CLAUDE.md` and `CONTEXT.md` from your docs (docs before code).
 
 Check the model names in `claude_args` match the current Claude models.
 
-**Rights:** give each agent everything its job needs now (permissions, `--allowedTools`, stack setup). The agent can't edit workflows, so a missing right means a manual PR later. See phases/3-agent-pipeline.md.
+**Rights:** give each agent everything its job needs now (permissions, `--allowedTools`, stack setup). The agent can't edit workflows, so a missing right means a manual PR later. See practices/3-agent-pipeline.md.
 
 ## Two GitHub traps these files already solve
 

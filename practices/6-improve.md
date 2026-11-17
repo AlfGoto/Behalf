@@ -1,4 +1,4 @@
-# Phase 6 — Improving the system
+# Improving the system
 
 ## Mistakes become rules
 

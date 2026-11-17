@@ -93,7 +93,7 @@ jobs:
       cancel-in-progress: false
     # Stops a stuck run (GitHub's default is 6 h of billed minutes).
     timeout-minutes: 30
-    # Give the agent every right its job needs NOW (see phases/3: a missing right = a manual PR later,
+    # Give the agent every right its job needs NOW (see practices/3: a missing right = a manual PR later,
     # because the agent can't edit workflows). Still no merge, no push to main.
     permissions:
       contents: write

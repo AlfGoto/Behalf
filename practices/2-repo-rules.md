@@ -1,4 +1,4 @@
-# Phase 2 — Repo rules for fresh agents
+# Repo rules for fresh agents
 
 Every agent starts with nothing. These files are all it gets.
 
@@ -13,10 +13,11 @@ Short and imperative. In this order:
    - Need something undecided? Stop and ask in a comment. Never build it "for now" or "as an example".
    - Tickets: same rule. Ideas go under `## Questions for <human>`, never under `## Scope`.
    - A ticket can be wrong. If its scope isn't backed by `docs/`, ask first.
-4. **Hard rules**: words to use and avoid, architecture rules, security rules.
-5. **Tests**: feature first, few tests on logic that matters, no code changed only to be testable, run them yourself before pushing.
-6. **Cost rules**: push once, never wait for CI.
-7. **Workflow**: branch + draft PR, never push to main, assign the human, update `docs/` in the same PR when a decision changes.
+4. **UI work**: "read the design system first (`docs/design-system/README.md`), use its tokens and components, never paste raw values". See [docs before code](1-docs.md#a-design-system-if-theres-a-ui).
+5. **Hard rules**: words to use and avoid, architecture rules, security rules.
+6. **Tests**: feature first, few tests on logic that matters, no code changed only to be testable, run them yourself before pushing.
+7. **Cost rules**: push once, never wait for CI.
+8. **Workflow**: branch + draft PR, never push to main, assign the human, update `docs/` in the same PR when a decision changes.
 
 Templates: `stacks/common/CLAUDE.md`, `stacks/common/CONTEXT.md`.
 

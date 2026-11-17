@@ -1,4 +1,4 @@
-# Phase 5 — Running the work
+# Running the work
 
 ## The loop
 
