@@ -1,6 +1,6 @@
 ---
 name: behalf
-description: Good practices for building software as product owner + QA while fresh, specialised agents code, review and fix: docs first, testable issue chains, @claude delegation, review loops.
+description: "Good practices for building software as product owner + QA while fresh, specialised agents code, review and fix: docs first, testable issue chains, @claude delegation, review loops."
 ---
 
 # behalf — agents build, you own the product

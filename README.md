@@ -1,5 +1,7 @@
 # behalf
 
+[![skills.sh](https://skills.sh/b/AlfGoto/Behalf)](https://skills.sh/AlfGoto/Behalf)
+
 A Claude skill that collects **good practices** for building software as **product owner + QA** while fresh, specialised agents code, review and fix, on your behalf.
 
 Not a strict method: take what fits your project. The practices that pay off most: docs with no grey zones before any code, issues chained so every merge can be tested right away, and PRs you only look at when a status says it's your turn.
@@ -56,6 +58,14 @@ Works on a new project or one already in progress (`adopt.md`). Take what fits.
 - `gh` and `jq`, only to run `templates/build-map-data.sh`. Any agent with access to your tracker can produce the same JSON instead.
 
 ## Install
+
+With the [skills CLI](https://skills.sh):
+
+```
+npx skills add AlfGoto/Behalf
+```
+
+Or clone it:
 
 ```
 git clone https://github.com/AlfGoto/behalf ~/.claude/skills/behalf
